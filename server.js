@@ -141,14 +141,10 @@ app.get('/login', (req, res) => {
 });
 
 
-async function passwordHasher(plain_text_password, hashed_password){
-    hashed_password = await bcrypt.hashSync(plain_text_password, 10)
-    console.log(hashed_password);
-
-    const isMatch = await bcrypt.compareSync('123456', hashed_password)
+async function passwordDehasher(plain_text_password, hashed_password){
+    const isMatch = await bcrypt.compareSync(plain_text_password, hashed_password)
     console.log(isMatch);
 }
-
 
 app.use(express.urlencoded({ extended: true }));
 app.post("/loggingIn", async (req, res) => {
@@ -167,12 +163,14 @@ app.post("/loggingIn", async (req, res) => {
 
     console.log(result);
     console.log(req.body.username)
-	if (!result) {
+    password = req.body.password
+	if (result == false) {
 		console.log("user not found");
 		res.redirect("/login");
 		return;
 	}
-	if (passwordHasher(req.body.password, result.password)) {
+    // passwordDehasher(req.body.password, result.password)
+	if (await bcrypt.compareSync(password, result[0].password)) {
 		console.log("correct password");
 		req.session.authenticated = true;
 		req.session.username = username;
@@ -196,8 +194,6 @@ isUserAuthenticated = ((req, res, next) => {
         next();
     else
         res.status(401).send('Please Login First');
-        res.redirect("/login");
-		return;
 })
 
 app.use(isUserAuthenticated)
