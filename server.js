@@ -20,7 +20,7 @@ const expireTime = 24 * 60 * 60 * 1000; //expires after 1 day  (hours * minutes 
 var MongoDBStore = require('connect-mongodb-session')(session);
 
 var store = new MongoDBStore({
-    uri: 'mongodb://127.0.0.1:27017/connect_mongodb_session_test',
+    uri: `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.l8u9sij.mongodb.net/?retryWrites=true&w=majority`,
     collection: 'mySessions'
 })
 
