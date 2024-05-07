@@ -193,7 +193,10 @@ isUserAuthenticated = ((req, res, next) => {
     if(req.session.authenticated)
         next();
     else
-        res.status(401).send('Please Login First');
+        res.status(401).send(`Please Login First
+        <form action='/login' method = 'get'> <button>Log In</button></form>
+        `);
+		return;
 })
 
 app.use(isUserAuthenticated)
