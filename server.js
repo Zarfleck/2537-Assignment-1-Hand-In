@@ -16,6 +16,7 @@ const node_session_secret = process.env.NODE_SESSION_SECRET;
 
 const expireTime = 24 * 60 * 60 * 1000; //expires after 1 day  (hours * minutes * seconds * millis)
 
+app.use(express.urlencoded({ extended: true }));
 
 var MongoDBStore = require('connect-mongodb-session')(session);
 
@@ -51,7 +52,6 @@ app.use(session({
     secret: process.env.SECRET_FOR_SESSION_STORE,
     resave: false,
     saveUninitialized: true,
-    // cookie: { secure: true }
     store: store,
 }));
 
@@ -99,7 +99,6 @@ app.get('/signUp', (req, res) => {
 });
 
 
-app.use(express.urlencoded({ extended: true }));
 app.post('/submitUser', async (req,res) => {
     var username = req.body.username;
     var email = req.body.email;
