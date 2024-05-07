@@ -32,7 +32,7 @@ async function main() {
     // await mongoose.connect('mongodb://127.0.0.1:27017/test');
     await mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.l8u9sij.mongodb.net/?retryWrites=true&w=majority`);
 
-    app.listen( process.env.PORT || 3080, () => {
+    app.listen( process.env.PORT || 3000, () => {
         console.log("Server is running on port 3000");
     });
 }
